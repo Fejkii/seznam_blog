@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:seznam_blog/constant/app_colors.dart';
 import 'package:seznam_blog/ui/post/post_list_page.dart';
 
 void main() {
@@ -11,9 +12,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Seznam Blog',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primary),
         useMaterial3: true,
       ),
       home: const PostListPage(),

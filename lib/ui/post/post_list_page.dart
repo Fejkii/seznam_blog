@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:seznam_blog/ui/widget/app_scaffold.dart';
 
 class PostListPage extends StatefulWidget {
   const PostListPage({super.key});
@@ -10,8 +11,11 @@ class PostListPage extends StatefulWidget {
 class _PostListPageState extends State<PostListPage> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Text("POST LIST page"),
+    return AppScaffold(
+      appBar: AppBar(
+        title: const Text("Post list page"),
+      ),
+      body: const Text("content"),
     );
   }
 }
