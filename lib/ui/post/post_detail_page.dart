@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:seznam_blog/model/post_model.dart';
 import 'package:seznam_blog/ui/widget/app_scaffold.dart';
 import 'package:seznam_blog/ui/widget/app_title_with_value.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PostDetailPage extends StatefulWidget {
   final PostModel postModel;
@@ -40,10 +41,10 @@ class _PostDetailPageState extends State<PostDetailPage> {
   Widget _body() {
     return Column(
       children: [
-        AppTitleWithValue(title: "Title", value: postModel.title),
-        AppTitleWithValue(title: "Body", value: postModel.body),
-        AppTitleWithValue(title: "ID", value: postModel.id.toString()),
-        AppTitleWithValue(title: "User ID", value: postModel.userId.toString()),
+        AppTitleWithValue(title: AppLocalizations.of(context)!.title, value: postModel.title),
+        AppTitleWithValue(title: AppLocalizations.of(context)!.body, value: postModel.body),
+        AppTitleWithValue(title: AppLocalizations.of(context)!.id, value: postModel.id.toString()),
+        AppTitleWithValue(title: AppLocalizations.of(context)!.userId, value: postModel.userId.toString()),
       ],
     );
   }

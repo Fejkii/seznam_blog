@@ -6,6 +6,7 @@ import 'package:seznam_blog/ui/post/post_detail_page.dart';
 import 'package:seznam_blog/ui/widget/app_list_view.dart';
 import 'package:seznam_blog/ui/widget/app_loading_indicator.dart';
 import 'package:seznam_blog/ui/widget/app_scaffold.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PostListPage extends StatefulWidget {
   const PostListPage({super.key});
@@ -21,7 +22,7 @@ class _PostListPageState extends State<PostListPage> {
   Widget build(BuildContext context) {
     return AppScaffold(
       appBar: AppBar(
-        title: const Text("Post list page"),
+        title: Text(AppLocalizations.of(context)!.postListTitle),
       ),
       body: _body(),
     );
