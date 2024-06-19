@@ -2,8 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:seznam_blog/api/api_config.dart';
 import 'package:seznam_blog/api/api_error_handler.dart';
 import 'package:seznam_blog/api/api_result_handler.dart';
-import 'package:seznam_blog/model/failure_response.dart';
-import 'package:seznam_blog/model/success_response.dart';
 
 const String APPLICATION_JSON = "application/json";
 const String CONTENT_TYPE = "contet-type";
@@ -30,9 +28,10 @@ class ApiFactory {
     return dio;
   }
 
-  Future<ApiResults> getMethod({
+  Future<ApiResultHandler> getMethod({
     required String endpoint,
     int? identificator,
+    String? param,
   }) async {
     try {
       String path = endpoint;
@@ -41,23 +40,25 @@ class ApiFactory {
         path = "$path/$identificator";
       }
 
-      var response = await getDio().get(endpoint);
+      if (param != null && param != "") {
+        path = "$path/$param";
+      }
 
-      SuccessResponse successResponse = SuccessResponse.fromMap(response.data);
+      path = ApiConfig.API_URL + path;
 
-      return ApiSuccess(successResponse.data, response.statusCode);
+      var response = await getDio().get(path);
+
+      return ApiSuccess(data: response.data, code: response.statusCode);
     } on DioException catch (e) {
       if (e.response != null) {
-        FailureResponse failureResponse = FailureResponse.fromMap(e.response!.data);
-
-        return ApiFailure(failureResponse.code, failureResponse.message);
+        return ApiFailure(message: e.response.toString(), code: e.response?.statusCode);
       } else {
         return ApiErrorHandler.handle(e).failure;
       }
     }
   }
 
-  Future<ApiResults> postMethod({
+  Future<ApiResultHandler> postMethod({
     required String endpoint,
     int? identificator,
     Map<String, dynamic>? data,
@@ -66,80 +67,78 @@ class ApiFactory {
       String path = endpoint;
 
       if (identificator != null) {
-        path = "$path/$identificator";
+        path = path + identificator.toString();
       }
+
+      path = ApiConfig.API_URL + path;
 
       var response = await getDio().post(
         path,
         data: data,
       );
 
-      SuccessResponse successResponse = SuccessResponse.fromMap(response.data);
-
-      return ApiSuccess(successResponse.data, response.statusCode);
+      return ApiSuccess(data: response.data, code: response.statusCode);
     } on DioException catch (e) {
       if (e.response != null) {
-        FailureResponse failureResponse = FailureResponse.fromMap(e.response!.data);
-
-        return ApiFailure(failureResponse.code, failureResponse.message);
+        return ApiFailure(message: e.response.toString(), code: e.response?.statusCode);
       } else {
         return ApiErrorHandler.handle(e).failure;
       }
     }
   }
 
-  Future<ApiResults> putMethod({
+  Future<ApiResultHandler> putMethod({
     required String endpoint,
     int? identificator,
     Map<String, dynamic>? data,
   }) async {
     try {
       String path = endpoint;
+
       if (identificator != null) {
-        path = "$endpoint/$identificator";
+        path = path + identificator.toString();
       }
+
+      path = ApiConfig.API_URL + path;
+
       var response = await getDio().put(
         path,
         data: data,
       );
 
-      SuccessResponse successResponse = SuccessResponse.fromMap(response.data);
-
-      return ApiSuccess(successResponse.data, response.statusCode);
+      return ApiSuccess(data: response.data, code: response.statusCode);
     } on DioException catch (e) {
       if (e.response != null) {
-        FailureResponse failureResponse = FailureResponse.fromMap(e.response!.data);
-
-        return ApiFailure(failureResponse.code, failureResponse.message);
+        return ApiFailure(message: e.response.toString(), code: e.response?.statusCode);
       } else {
         return ApiErrorHandler.handle(e).failure;
       }
     }
   }
 
-  Future<ApiResults> deleteMethod({
+  Future<ApiResultHandler> deleteMethod({
     required String endpoint,
     int? identificator,
     Map<String, dynamic>? data,
   }) async {
     try {
       String path = endpoint;
+
       if (identificator != null) {
-        path = "$endpoint/$identificator";
+        path = path + identificator.toString();
       }
+
+      path = ApiConfig.API_URL + path;
+
       var response = await getDio().delete(
         path,
         data: data,
       );
 
-      SuccessResponse successResponse = SuccessResponse.fromMap(response.data);
-
-      return ApiSuccess(successResponse.data, response.statusCode);
+      return ApiSuccess(data: response.data, code: response.statusCode);
     } on DioException catch (e) {
       if (e.response != null) {
-        FailureResponse failureResponse = FailureResponse.fromMap(e.response!.data);
-
-        return ApiFailure(failureResponse.code, failureResponse.message);
+        return ApiFailure(message: e.response.toString(), code: e.response?.statusCode);
       } else {
         return ApiErrorHandler.handle(e).failure;
       }

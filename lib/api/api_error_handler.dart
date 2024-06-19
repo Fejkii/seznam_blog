@@ -77,33 +77,33 @@ extension DataSourceExtension on DataSource {
   ApiFailure getFailure() {
     switch (this) {
       case DataSource.BAD_REQUEST:
-        return ApiFailure(ResponseCode.BAD_REQUEST, ResponseMessage.BAD_REQUEST);
+        return ApiFailure(message: ResponseMessage.BAD_REQUEST, code: ResponseCode.BAD_REQUEST);
       case DataSource.FORBIDDEN:
-        return ApiFailure(ResponseCode.FORBIDDEN, ResponseMessage.FORBIDDEN);
+        return ApiFailure(message: ResponseMessage.FORBIDDEN, code: ResponseCode.FORBIDDEN);
       case DataSource.UNATUHORIZED:
-        return ApiFailure(ResponseCode.UNATUHORIZED, ResponseMessage.UNATUHORIZED);
+        return ApiFailure(message: ResponseMessage.UNATUHORIZED, code: ResponseCode.UNATUHORIZED);
       case DataSource.CONFLICT:
-        return ApiFailure(ResponseCode.CONFLICT, ResponseMessage.CONFLICT);
+        return ApiFailure(message: ResponseMessage.CONFLICT, code: ResponseCode.CONFLICT);
       case DataSource.NOT_FOUND:
-        return ApiFailure(ResponseCode.NOT_FOUND, ResponseMessage.NOT_FOUND);
+        return ApiFailure(message: ResponseMessage.NOT_FOUND, code: ResponseCode.NOT_FOUND);
       case DataSource.INTERNAL_SERVER_ERROR:
-        return ApiFailure(ResponseCode.INTERNAL_SERVER_ERROR, ResponseMessage.INTERNAL_SERVER_ERROR);
+        return ApiFailure(message: ResponseMessage.INTERNAL_SERVER_ERROR, code: ResponseCode.INTERNAL_SERVER_ERROR);
       case DataSource.CONNECT_TIMEOUT:
-        return ApiFailure(ResponseCode.CONNECT_TIMEOUT, ResponseMessage.CONNECT_TIMEOUT);
+        return ApiFailure(message: ResponseMessage.CONNECT_TIMEOUT, code: ResponseCode.CONNECT_TIMEOUT);
       case DataSource.CANCEL:
-        return ApiFailure(ResponseCode.CANCEL, ResponseMessage.CANCEL);
+        return ApiFailure(message: ResponseMessage.CANCEL, code: ResponseCode.CANCEL);
       case DataSource.RECEIVE_TIMEOUT:
-        return ApiFailure(ResponseCode.RECEIVE_TIMEOUT, ResponseMessage.RECEIVE_TIMEOUT);
+        return ApiFailure(message: ResponseMessage.RECEIVE_TIMEOUT, code: ResponseCode.RECEIVE_TIMEOUT);
       case DataSource.SEND_TIMEOUT:
-        return ApiFailure(ResponseCode.SEND_TIMEOUT, ResponseMessage.SEND_TIMEOUT);
+        return ApiFailure(message: ResponseMessage.SEND_TIMEOUT, code: ResponseCode.SEND_TIMEOUT);
       case DataSource.CACHE_ERROR:
-        return ApiFailure(ResponseCode.CACHE_ERROR, ResponseMessage.CACHE_ERROR);
+        return ApiFailure(message: ResponseMessage.CACHE_ERROR, code: ResponseCode.CACHE_ERROR);
       case DataSource.NO_INTERNET_CONNECTION:
-        return ApiFailure(ResponseCode.NO_INTERNET_CONNECTION, ResponseMessage.NO_INTERNET_CONNECTION);
+        return ApiFailure(message: ResponseMessage.NO_INTERNET_CONNECTION, code: ResponseCode.NO_INTERNET_CONNECTION);
       case DataSource.DEFAULT:
-        return ApiFailure(ResponseCode.DEFAULT, ResponseMessage.DEFAULT);
+        return ApiFailure(message: ResponseMessage.DEFAULT, code: ResponseCode.DEFAULT);
       default:
-        return ApiFailure(ResponseCode.DEFAULT, ResponseMessage.DEFAULT);
+        return ApiFailure(message: ResponseMessage.DEFAULT, code: ResponseCode.DEFAULT);
     }
   }
 }

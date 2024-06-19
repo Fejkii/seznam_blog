@@ -1,21 +1,21 @@
-abstract class ApiResults {}
+abstract class ApiResultHandler {}
 
-class ApiSuccess extends ApiResults {
-  int code;
+class ApiSuccess extends ApiResultHandler {
   dynamic data;
+  int? code;
 
-  ApiSuccess(
+  ApiSuccess({
+    required this.data,
     this.code,
-    this.data,
-  );
+  });
 }
 
-class ApiFailure extends ApiResults {
-  int code;
+class ApiFailure extends ApiResultHandler {
   String message;
+  int? code;
 
-  ApiFailure(
+  ApiFailure({
+    required this.message,
     this.code,
-    this.message,
-  );
+  });
 }
