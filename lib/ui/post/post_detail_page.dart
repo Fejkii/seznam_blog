@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:seznam_blog/bloc/comment_bloc.dart';
 
 import 'package:seznam_blog/model/post_model.dart';
 import 'package:seznam_blog/ui/comment/comment_detail_page.dart';
@@ -26,6 +28,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
   @override
   void initState() {
     postModel = widget.postModel;
+    _getLocalComments();
     super.initState();
   }
 
@@ -42,11 +45,15 @@ class _PostDetailPageState extends State<PostDetailPage> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const CommentDetailPage(commentModel: null),
+            builder: (context) => CommentDetailPage(postId: postModel.id, commentModel: null),
           ),
-        );
+        ).then((value) => _getLocalComments());
       }),
     );
+  }
+
+  void _getLocalComments() {
+    BlocProvider.of<CommentBloc>(context).add(GetLocalCommentListByPostIdEvent(postId: postModel.id));
   }
 
   Widget _body() {

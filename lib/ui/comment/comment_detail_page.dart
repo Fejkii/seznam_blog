@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:seznam_blog/bloc/comment_bloc.dart';
 import 'package:seznam_blog/model/comment_model.dart';
+import 'package:seznam_blog/ui/widget/app_loading_indicator.dart';
 import 'package:seznam_blog/ui/widget/app_scaffold.dart';
 import 'package:seznam_blog/ui/widget/app_text_field.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CommentDetailPage extends StatefulWidget {
+  final int postId;
   final CommentModel? commentModel;
 
   const CommentDetailPage({
     super.key,
     required this.commentModel,
+    required this.postId,
   });
 
   @override
@@ -39,19 +44,56 @@ class _CommentDetailPageState extends State<CommentDetailPage> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      appBar: AppBar(
-        title: commentModel != null ? Text(commentModel!.name) : Text(AppLocalizations.of(context)!.newComment),
-        actions: [
-          IconButton(
-            onPressed: () {
-              // TODO:
-            },
-            icon: const Icon(Icons.save),
-          )
-        ],
-      ),
+      appBar: _appBar(context),
       body: _body(),
     );
+  }
+
+  AppBar _appBar(BuildContext context) {
+    return AppBar(
+      title: commentModel != null ? Text(commentModel!.name) : Text(AppLocalizations.of(context)!.newComment),
+      actions: [
+        BlocConsumer<CommentBloc, CommentState>(
+          listener: (context, state) {
+            if (state is CommentCreatedSuccessState) {
+              // TODO create message
+              // TODO update message
+              Navigator.pop(context);
+            } else if (state is CommentFailureState) {
+              // TODO Fail error
+            }
+          },
+          builder: (context, state) {
+            if (state is CommentLoadingState) {
+              return const AppLoadingIndicator();
+            } else {
+              return IconButton(
+                onPressed: () {
+                  _onSave();
+                },
+                icon: const Icon(Icons.save),
+              );
+            }
+          },
+        ),
+      ],
+    );
+  }
+
+  void _onSave() {
+    if (_formKey.currentState!.validate()) {
+      BlocProvider.of<CommentBloc>(context).add(
+        PostNewCommentEvent(
+          commentModel: CommentModel(
+            postId: widget.postId,
+            name: _nameController.text,
+            email: _emailController.text,
+            body: _bodyController.text,
+            id: 0,
+          ),
+        ),
+      );
+    }
   }
 
   Form _body() {

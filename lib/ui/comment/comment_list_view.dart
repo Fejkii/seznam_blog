@@ -19,7 +19,8 @@ class CommentListView extends StatefulWidget {
 }
 
 class _CommentListViewState extends State<CommentListView> {
-  late List<CommentModel> commentList = [];
+  late List<CommentModel> serverCommentList = [];
+  late List<CommentModel> localCommentList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +28,15 @@ class _CommentListViewState extends State<CommentListView> {
       children: [
         _addNewCommentWidget(),
         const SizedBox(height: 20),
-        _commentListWidget(),
+        _serverCommentListWidget(),
+        const SizedBox(height: 20),
+        _localCommentListWidget()
       ],
     );
+  }
+
+  void _getLocalComments() {
+    BlocProvider.of<CommentBloc>(context).add(GetLocalCommentListByPostIdEvent(postId: widget.postId));
   }
 
   Widget _addNewCommentWidget() {
@@ -38,29 +45,33 @@ class _CommentListViewState extends State<CommentListView> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const CommentDetailPage(commentModel: null),
+            builder: (context) => CommentDetailPage(postId: widget.postId, commentModel: null),
           ),
-        );
+        ).then((value) => _getLocalComments());
       },
       child: Text(AppLocalizations.of(context)!.addNewComment),
     );
   }
 
-  Widget _commentListWidget() {
+  Widget _serverCommentListWidget() {
     return BlocProvider(
-      create: (context) => CommentBloc()..add(GetCommentListByPostIdEvent(postId: widget.postId)),
+      create: (context) => CommentBloc()..add(GetServerCommentListByPostIdEvent(postId: widget.postId)),
       child: BlocConsumer<CommentBloc, CommentState>(
         builder: (context, state) {
           if (state is CommentLoadingState) {
             return const AppLoadingIndicator();
           } else {
-            return AppListView(listData: commentList, itemBuilder: _itemBuilder);
+            return AppListView(
+              title: AppLocalizations.of(context)!.serverComments,
+              listData: serverCommentList,
+              itemBuilder: _serverItemBuilder,
+            );
           }
         },
         listener: (context, state) {
           if (state is CommentListSuccessState) {
             setState(() {
-              commentList = state.commentList;
+              serverCommentList = state.commentList;
             });
           } else if (state is CommentFailureState) {
             print("ERROR: ${state.errorMessage}");
@@ -71,22 +82,71 @@ class _CommentListViewState extends State<CommentListView> {
     );
   }
 
-  Widget _itemBuilder(BuildContext context, int index) {
+  Widget _localCommentListWidget() {
+    return BlocProvider(
+      create: (context) => CommentBloc()..add(GetLocalCommentListByPostIdEvent(postId: widget.postId)),
+      child: BlocConsumer<CommentBloc, CommentState>(
+        builder: (context, state) {
+          if (state is CommentLoadingState) {
+            return const AppLoadingIndicator();
+          } else {
+            return AppListView(
+              title: AppLocalizations.of(context)!.localComments,
+              listData: localCommentList,
+              itemBuilder: _localItemBuilder,
+            );
+          }
+        },
+        listener: (context, state) {
+          if (state is CommentListSuccessState) {
+            setState(() {
+              localCommentList = state.commentList;
+            });
+          } else if (state is CommentFailureState) {
+            print("ERROR: ${state.errorMessage}");
+            // TODO: Toast Error
+          }
+        },
+      ),
+    );
+  }
+
+  Widget _serverItemBuilder(BuildContext context, int index) {
     return AppListViewItem(
       itemBody: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(commentList[index].email),
-          Text(commentList[index].name),
+          Text(serverCommentList[index].email),
+          Text(serverCommentList[index].name),
         ],
       ),
       onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => CommentDetailPage(commentModel: commentList[index]),
+            builder: (context) => CommentDetailPage(postId: widget.postId, commentModel: serverCommentList[index]),
           ),
         );
+      },
+    );
+  }
+
+  Widget _localItemBuilder(BuildContext context, int index) {
+    return AppListViewItem(
+      itemBody: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(localCommentList[index].email),
+          Text(localCommentList[index].name),
+        ],
+      ),
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => CommentDetailPage(postId: widget.postId, commentModel: localCommentList[index]),
+          ),
+        ).then((value) => _getLocalComments());
       },
     );
   }

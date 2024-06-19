@@ -13,7 +13,7 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
   final CommentRepository commentRepository = CommentRepository();
 
   CommentBloc() : super(CommentInitial()) {
-    on<GetCommentListByPostIdEvent>((event, emit) async {
+    on<GetServerCommentListByPostIdEvent>((event, emit) async {
       emit(CommentLoadingState());
 
       try {
@@ -33,19 +33,24 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
       }
     });
 
+    on<GetLocalCommentListByPostIdEvent>((event, emit) async {
+      emit(CommentLoadingState());
+
+      try {
+        List<CommentModel> commentList = await commentRepository.getLocalCommentListByPostId(event.postId);
+        commentRepository.getLocalCommentListByPostId(event.postId);
+        emit(CommentListSuccessState(commentList: commentList));
+      } catch (e) {
+        emit(CommentFailureState(errorMessage: e.toString()));
+      }
+    });
+
     on<PostNewCommentEvent>((event, emit) async {
       emit(CommentLoadingState());
 
       try {
-        ApiResultHandler apiResultHandler = await commentRepository.postNewComment();
-
-        if (apiResultHandler is ApiSuccess) {
-          // TODO - save comment
-
-          emit(CommentCreatedSuccessState());
-        } else if (apiResultHandler is ApiFailure) {
-          emit(CommentFailureState(errorMessage: apiResultHandler.message));
-        }
+        await commentRepository.saveLocalNewComment(event.commentModel);
+        emit(CommentCreatedSuccessState());
       } catch (e) {
         emit(CommentFailureState(errorMessage: e.toString()));
       }
