@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seznam_blog/bloc/post_bloc.dart';
 import 'package:seznam_blog/model/post_model.dart';
+import 'package:seznam_blog/ui/post/post_detail_page.dart';
 import 'package:seznam_blog/ui/widget/app_list_view.dart';
 import 'package:seznam_blog/ui/widget/app_loading_indicator.dart';
 import 'package:seznam_blog/ui/widget/app_scaffold.dart';
@@ -63,7 +64,12 @@ class _PostListPageState extends State<PostListPage> {
         ],
       ),
       onTap: () {
-        // TODO: Post Detail Page
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => PostDetailPage(postModel: postList[index]),
+          ),
+        );
       },
     );
   }
