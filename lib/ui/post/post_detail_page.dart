@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'package:seznam_blog/model/post_model.dart';
+import 'package:seznam_blog/ui/comment/comment_detail_page.dart';
 import 'package:seznam_blog/ui/comment/comment_list_view.dart';
+import 'package:seznam_blog/ui/widget/app_floating_button.dart';
 import 'package:seznam_blog/ui/widget/app_scaffold.dart';
 import 'package:seznam_blog/ui/widget/app_title_with_value.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -36,6 +38,14 @@ class _PostDetailPageState extends State<PostDetailPage> {
         ),
       ),
       body: _body(),
+      floatingActionButton: AppFloatingButton(onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const CommentDetailPage(commentModel: null),
+          ),
+        );
+      }),
     );
   }
 
