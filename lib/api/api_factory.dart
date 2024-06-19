@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:seznam_blog/api/api_config.dart';
 import 'package:seznam_blog/api/api_error_handler.dart';
 import 'package:seznam_blog/api/api_result_handler.dart';
@@ -24,6 +25,17 @@ class ApiFactory {
     );
 
     dio = Dio(baseOptions);
+
+    dio.interceptors.add(
+      PrettyDioLogger(
+        requestHeader: true,
+        requestBody: true,
+        responseBody: true,
+        responseHeader: false,
+        error: true,
+        compact: true,
+      ),
+    );
 
     return dio;
   }
