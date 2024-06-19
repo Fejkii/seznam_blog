@@ -68,12 +68,15 @@ class _CommentDetailPageState extends State<CommentDetailPage> {
             if (state is CommentLoadingState) {
               return const AppLoadingIndicator();
             } else {
-              return IconButton(
-                onPressed: () {
-                  _onSave();
-                },
-                icon: const Icon(Icons.save),
-              );
+              if (commentModel == null) {
+                return IconButton(
+                  onPressed: () {
+                    _onSave();
+                  },
+                  icon: const Icon(Icons.save),
+                );
+              }
+              return Container();
             }
           },
         ),
