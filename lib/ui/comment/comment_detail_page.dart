@@ -58,7 +58,6 @@ class _CommentDetailPageState extends State<CommentDetailPage> {
           listener: (context, state) {
             if (state is CommentCreatedSuccessState) {
               AppToastMessage().showToastMsg(AppLocalizations.of(context)!.commentCreated, ToastState.success);
-              // TODO update message
               Navigator.pop(context);
             } else if (state is CommentFailureState) {
               AppToastMessage().showToastMsg(state.errorMessage, ToastState.error);
