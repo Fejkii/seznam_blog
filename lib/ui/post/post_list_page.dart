@@ -7,6 +7,7 @@ import 'package:seznam_blog/ui/widget/app_list_view.dart';
 import 'package:seznam_blog/ui/widget/app_loading_indicator.dart';
 import 'package:seznam_blog/ui/widget/app_scaffold.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:seznam_blog/ui/widget/app_toast_message.dart';
 
 class PostListPage extends StatefulWidget {
   const PostListPage({super.key});
@@ -45,8 +46,7 @@ class _PostListPageState extends State<PostListPage> {
               postList = state.postList;
             });
           } else if (state is PostFailureState) {
-            print("ERROR: ${state.errorMessage}");
-            // TODO: Toast Error
+            AppToastMessage().showToastMsg(state.errorMessage, ToastState.error);
           }
         },
       ),

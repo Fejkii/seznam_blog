@@ -6,6 +6,7 @@ import 'package:seznam_blog/ui/comment/comment_detail_page.dart';
 import 'package:seznam_blog/ui/widget/app_list_view.dart';
 import 'package:seznam_blog/ui/widget/app_loading_indicator.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:seznam_blog/ui/widget/app_toast_message.dart';
 
 class CommentListView extends StatefulWidget {
   final int postId;
@@ -74,8 +75,7 @@ class _CommentListViewState extends State<CommentListView> {
               serverCommentList = state.commentList;
             });
           } else if (state is CommentFailureState) {
-            print("ERROR: ${state.errorMessage}");
-            // TODO: Toast Error
+            AppToastMessage().showToastMsg(state.errorMessage, ToastState.error);
           }
         },
       ),
@@ -103,8 +103,7 @@ class _CommentListViewState extends State<CommentListView> {
               localCommentList = state.commentList;
             });
           } else if (state is CommentFailureState) {
-            print("ERROR: ${state.errorMessage}");
-            // TODO: Toast Error
+            AppToastMessage().showToastMsg(state.errorMessage, ToastState.error);
           }
         },
       ),

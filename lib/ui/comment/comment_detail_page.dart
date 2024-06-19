@@ -6,6 +6,7 @@ import 'package:seznam_blog/ui/widget/app_loading_indicator.dart';
 import 'package:seznam_blog/ui/widget/app_scaffold.dart';
 import 'package:seznam_blog/ui/widget/app_text_field.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:seznam_blog/ui/widget/app_toast_message.dart';
 
 class CommentDetailPage extends StatefulWidget {
   final int postId;
@@ -56,11 +57,11 @@ class _CommentDetailPageState extends State<CommentDetailPage> {
         BlocConsumer<CommentBloc, CommentState>(
           listener: (context, state) {
             if (state is CommentCreatedSuccessState) {
-              // TODO create message
+              AppToastMessage().showToastMsg(AppLocalizations.of(context)!.commentCreated, ToastState.success);
               // TODO update message
               Navigator.pop(context);
             } else if (state is CommentFailureState) {
-              // TODO Fail error
+              AppToastMessage().showToastMsg(state.errorMessage, ToastState.error);
             }
           },
           builder: (context, state) {

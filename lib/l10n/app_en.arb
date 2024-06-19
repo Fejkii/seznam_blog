@@ -6,6 +6,7 @@
   "userId": "User ID",
   "addNewComment": "Add new local comment",
   "newComment": "New local comment",
+  "commentCreated": "Comment created",
   "localComments": "Local Hive comments",
   "serverComments": "Server comments from API",
   "name": "Name",
