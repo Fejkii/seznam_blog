@@ -1,7 +1,14 @@
 {
-    "postListTitle": "Post list page",
-    "title": "Title",
-    "body": "Body",
-    "id": "ID",
-    "userId": "User ID"
+  "postListTitle": "Post list page",
+  "title": "Title",
+  "body": "Body",
+  "id": "ID",
+  "userId": "User ID",
+  "addNewComment": "Add new comment",
+  "newComment": "New comment",
+  "name": "Name",
+  "email": "Email",
+  "requiredField": "This field is required",
+  "validEmail": "Email is not valid",
+  "validTitle": "Title is not valid"
 }

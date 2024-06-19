@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:seznam_blog/model/post_model.dart';
+import 'package:seznam_blog/ui/comment/comment_list_view.dart';
 import 'package:seznam_blog/ui/widget/app_scaffold.dart';
 import 'package:seznam_blog/ui/widget/app_title_with_value.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -45,6 +46,8 @@ class _PostDetailPageState extends State<PostDetailPage> {
         AppTitleWithValue(title: AppLocalizations.of(context)!.body, value: postModel.body),
         AppTitleWithValue(title: AppLocalizations.of(context)!.id, value: postModel.id.toString()),
         AppTitleWithValue(title: AppLocalizations.of(context)!.userId, value: postModel.userId.toString()),
+        const SizedBox(height: 20),
+        CommentListView(postId: postModel.id),
       ],
     );
   }
