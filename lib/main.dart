@@ -7,7 +7,7 @@ import 'package:seznam_blog/bloc/post_bloc.dart';
 import 'package:seznam_blog/constant/app_colors.dart';
 import 'package:seznam_blog/constant/app_hive.dart';
 import 'package:seznam_blog/model/comment_model.dart';
-import 'package:seznam_blog/ui/post/post_list_page.dart';
+import 'package:seznam_blog/ui/home/home.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() async {
@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
         ),
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
-        home: const PostListPage(),
+        home: const HomePage(),
       ),
     );
   }
