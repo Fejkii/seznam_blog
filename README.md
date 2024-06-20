@@ -73,21 +73,18 @@ flutter run
 
   - Toast messages (succes, error, warning)
 
+- [Cached Network Image](https://pub.dev/packages/cached_network_image)
+
+  - Downloand and cache images
+
 ## Supported platforms
 
 Aplication is executable on mobile (Android and iOS) and web.
 
 ## Aplication architecture
+
 - The layout and architecture of the application is relatively easy to expand. In the repository, I can simply change the data source (whether to get data from a remote server or a local database).
 
 - You can also easily add new endpoints to the application to get data.
 
 - As part of the user interface, I use reusable widgets here.
-
-## Other possible functionalities
-
-- Edit comments
-
-- UI
-
-- 
