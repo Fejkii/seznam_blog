@@ -5,6 +5,6 @@ import 'package:seznam_blog/app/dependency_injection.dart';
 
 class ImageRepository {
   Future<ApiResultHandler> getImageList() async {
-    return instance<ApiFactory>().getMethod(endpoint: ApiConfig.IMAGE_ROUTE);
+    return instance<ApiFactory>().getMethod(endpoint: "${ApiConfig.IMAGE_ROUTE}?_limit=10");
   }
 }
